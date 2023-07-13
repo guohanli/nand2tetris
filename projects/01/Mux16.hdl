@@ -15,4 +15,69 @@ CHIP Mux16 {
 
     PARTS:
     // Put your code here:
+    Not(in=sel, out=Notsel);
+
+    And(a=Notsel, b=a[0], out=aNotsel0);
+    And(a=sel, b=b[0], out=bsel0);
+    Or(a=aNotsel0, b=bsel0, out=out[0]);
+
+    And(a=Notsel, b=a[1], out=aNotsel1);
+    And(a=sel, b=b[1], out=bsel1);
+    Or(a=aNotsel1, b=bsel1, out=out[1]);
+
+    And(a=Notsel, b=a[2], out=aNotsel2);
+    And(a=sel, b=b[2], out=bsel2);
+    Or(a=aNotsel2, b=bsel2, out=out[2]);
+
+    And(a=Notsel, b=a[3], out=aNotsel3);
+    And(a=sel, b=b[3], out=bsel3);
+    Or(a=aNotsel3, b=bsel3, out=out[3]);
+
+    And(a=Notsel, b=a[4], out=aNotsel4);
+    And(a=sel, b=b[4], out=bsel4);
+    Or(a=aNotsel4, b=bsel4, out=out[4]);
+
+    And(a=Notsel, b=a[5], out=aNotsel5);
+    And(a=sel, b=b[5], out=bsel5);
+    Or(a=aNotsel5, b=bsel5, out=out[5]);
+
+    And(a=Notsel, b=a[6], out=aNotsel6);
+    And(a=sel, b=b[6], out=bsel6);
+    Or(a=aNotsel6, b=bsel6, out=out[6]);
+
+    And(a=Notsel, b=a[7], out=aNotsel7);
+    And(a=sel, b=b[7], out=bsel7);
+    Or(a=aNotsel7, b=bsel7, out=out[7]);
+
+    And(a=Notsel, b=a[8], out=aNotsel8);
+    And(a=sel, b=b[8], out=bsel8);
+    Or(a=aNotsel8, b=bsel8, out=out[8]);
+
+    And(a=Notsel, b=a[9], out=aNotsel9);
+    And(a=sel, b=b[9], out=bsel9);
+    Or(a=aNotsel9, b=bsel9, out=out[9]);
+
+    And(a=Notsel, b=a[10], out=aNotsel10);
+    And(a=sel, b=b[10], out=bsel10);
+    Or(a=aNotsel10, b=bsel10, out=out[10]);
+
+    And(a=Notsel, b=a[11], out=aNotsel11);
+    And(a=sel, b=b[11], out=bsel11);
+    Or(a=aNotsel11, b=bsel11, out=out[11]);
+
+    And(a=Notsel, b=a[12], out=aNotsel12);
+    And(a=sel, b=b[12], out=bsel12);
+    Or(a=aNotsel12, b=bsel12, out=out[12]);
+
+    And(a=Notsel, b=a[13], out=aNotsel13);
+    And(a=sel, b=b[13], out=bsel13);
+    Or(a=aNotsel13, b=bsel13, out=out[13]);
+
+    And(a=Notsel, b=a[14], out=aNotsel14);
+    And(a=sel, b=b[14], out=bsel14);
+    Or(a=aNotsel14, b=bsel14, out=out[14]);
+
+    And(a=Notsel, b=a[15], out=aNotsel15);
+    And(a=sel, b=b[15], out=bsel15);
+    Or(a=aNotsel15, b=bsel15, out=out[15]);
 }
