@@ -40,4 +40,44 @@ CHIP CPU {
 
     PARTS:
     // Put your code here:
+    // A Register
+    // - Input Selector (Address -> store instruction in A, Compute -> might want result in A)
+    Mux16(a=instruction, b=ALUout, sel=instruction[15], out=ARegInput);
+    // - Load assert logic (A will be written only if this is an Address instruction, or if it's marked as a destination in a Compute instruction)
+    Not(in=instruction[15], out=isAddrInstruction);
+    Or(a=isAddrInstruction, b=instruction[5], out=ARegLoad);
+    // - The register
+    ARegister(in=ARegInput, load=ARegLoad, out=ARegOut, out[0..14]=addressM);
+
+    // D Register
+    // - Load assert logic (D will be written only if this is a Compute instruction with D marked as a destination)
+    And(a=instruction[15], b=instruction[4], out=DRegLoad);
+    // - The register
+    DRegister(in=ALUout, load=DRegLoad, out=DRegOut);
+
+    // ALU
+    // - A or M[A] selector
+    Mux16(a=ARegOut, b=inM, sel=instruction[12], out=ALUInputA);
+    // - The ALU
+    ALU(x=DRegOut, y=ALUInputA, zx=instruction[11], nx=instruction[10], zy=instruction[9], ny=instruction[8],
+        f=instruction[7], no=instruction[6], out=ALUout, out=outM, zr=ALUzero, ng=ALUneg);
+
+    // Program Counter
+    // - Jump detection (only set PC to value of A register if we are actually jumping)
+    // -- Perform each conditional check, then pick which one we want based on J2+3
+    Not(in=ALUneg, out=ALUnotNeg);
+    Not(in=ALUzero, out=ALUnonzero);
+    Or(a=ALUneg, b=ALUzero, out=ALUnotPositive);
+    And(a=ALUnonzero, b=ALUnotNeg, out=ALUpositive);
+    Mux8Way16(a=false, b[0]=ALUpositive, c[0]=ALUzero, d[0]=ALUnotNeg, e[0]=ALUneg, f[0]=ALUnonzero, g[0]=ALUnotPositive, h[0]=true, sel=instruction[0..2], out[0]=jumpCndSatisfied);
+    // -- Make sure this is a Compute instruction
+    And(a=instruction[15], b=jumpCndSatisfied, out=doJump);
+    Not(in=doJump, out=dontJump);
+
+    // - The counter
+    PC(in=ARegOut, load=doJump, inc=dontJump, reset=reset, out[0..14]=pc);
+    
+    // assert writeM only when the M dest bit is set in a Compute instruction
+    And(a=instruction[15], b=instruction[3], out=writeM);
+
 }
